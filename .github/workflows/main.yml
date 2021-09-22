@@ -23,7 +23,6 @@ jobs:
           URL: ${{ secrets.URL}}
         run: |
              echo "Start!"
-             cat /github/workspace/README.md
       - uses: actions/checkout@v2 
       - uses: actions/setup-python@v2
         with:
