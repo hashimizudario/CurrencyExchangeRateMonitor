@@ -31,6 +31,8 @@ jobs:
           URL: ${{ secrets.URL}}
         run: |
           pip3 install requests argparse
+          echo $SOURCE_CURRENCY
+          echo ${{ secrets.SOURCE_CURRENCY}}
           output=$(python3 check_currency_rate.py -k $ACCESS_KEY -s $SOURCE_CURRENCY -t $TARGET_CURRENCY) 
           echo "::set-output name=rate::$output"
         id: rate  
