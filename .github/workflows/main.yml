@@ -9,6 +9,7 @@ on:
 jobs:
   check_currencies:
     runs-on: ubuntu-latest
+    environment: default
     steps:
       - name: Initialise Env
         shell: bash
