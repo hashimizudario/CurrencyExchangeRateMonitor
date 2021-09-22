@@ -11,6 +11,7 @@ parser.add_argument('--sender', type=str, help='sender email')
 parser.add_argument('--recipient', type=str, help='recipient email')
 parser.add_argument('--url', type=str, help='email url')
 parser.add_argument('--password', type=str, help='email password')
+parser.add_argument('--threshold', type=str, help='notification threshold')
 
 
 args = parser.parse_args()
@@ -21,26 +22,30 @@ sender = args.sender
 recipient = args.recipient
 url = args.url
 password = args.password
+threshold = args.threshold
 
-msg_str = "Now 1 " + target_currency + " = " + exchange_rate + " "  + source_currency + "!"
+if exchange_rate < threshold:
+    msg_str = "Now 1 " + target_currency + " = " + exchange_rate + " "  + source_currency + "!"
 
-msg = MIMEText(msg_str)
-msg['Subject'] = source_currency + " to " +target_currency + " Great deal!"
-msg['From'] = sender
+    msg = MIMEText(msg_str)
+    msg['Subject'] = source_currency + " to " +target_currency + " Great deal!"
+    msg['From'] = sender
 
-print("Start sending!")
-try:
-    s = smtplib.SMTP(url, 587)
-    s.set_debuglevel(0)
-    s.ehlo()
-    s.starttls()
-    print("Trying Login!")
-    s.ehlo()
-    s.login(sender, password)
-    print("Done Login!")
+    print("Start sending!")
     try:
-        s.sendmail(sender, recipient, msg.as_string())
-    finally:
-        s.quit()
-except:
-    sys.exit( "Mail failed" ) # give an error message
+        s = smtplib.SMTP(url, 587)
+        s.set_debuglevel(0)
+        s.ehlo()
+        s.starttls()
+        print("Trying Login!")
+        s.ehlo()
+        s.login(sender, password)
+        print("Done Login!")
+        try:
+            s.sendmail(sender, recipient, msg.as_string())
+        finally:
+            s.quit()
+    except:
+        sys.exit( "Mail failed" ) # give an error message
+else:
+    print("Hmm, not a deal.")

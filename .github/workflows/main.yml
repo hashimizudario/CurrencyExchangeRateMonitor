@@ -33,8 +33,7 @@ jobs:
           echo "::set-output name=rate::$output"
         id: rate  
       - name: Send notification
-        if: ${{steps.rate.outputs.rate < secrets.THRESHOLD}}
-        run: python3 /utils/send_email.py -r ${{steps.rate.outputs.rate}} -s $SOURCE_CURRENCY -t $TARGET_CURRENCY --sender $SENDER --recipient $RECIPIENT --url $URL --password $PASSWORD
+        run: python3 /utils/send_email.py -r ${{steps.rate.outputs.rate}} -s $SOURCE_CURRENCY -t $TARGET_CURRENCY --sender $SENDER --recipient $RECIPIENT --url $URL --password $PASSWORD --threshold $THRESHOLD
 
 
 
