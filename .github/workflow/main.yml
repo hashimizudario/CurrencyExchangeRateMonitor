@@ -1,0 +1,36 @@
+name: Currency Exchange Rate Monitor
+on: 
+  schedule:
+    - cron:  '00 12 * * *'
+    # Run every day
+jobs:
+  Check Currencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Initialise Env
+      - shell: bash
+          env:
+            ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+            PASSWORD: ${{ secrets.PASSWORD }}
+            RECIPIENT: ${{ secrets.RECIPIENT}}
+            SENDER: ${{ secrets.SENDER}}
+            SOURCE_CURRENCY: ${{ secrets.SOURCE_CURRENCY}}
+            TARGET_CURRENCY: ${{ secrets.TARGET_CURRENCY}}
+            THRESHOLD: ${{ secrets.THRESHOLD}}
+            URL: ${{ secrets.URL}}
+      - uses: actions/checkout@v2 
+      - uses: actions/setup-python@v2
+          with:
+            python-version: '3.x' 
+            architecture: 'x64'
+      - name: Check Currency Exchange Rate
+      - run: |
+          output=$(python3 /utils/check_currency_rate.py -k $ACCESS_KEY -s $SOURCE_CURRENCY -t $TARGET_CURRENCY) 
+          echo "::set-output name=rate::$output"
+        id: rate  
+      - name: Send notification
+        if: steps.rate.outputs.rate < $THRESHOLD
+        run: python3 /utils/send_email.py -r ${{steps.rate.outputs.rate}} -s $SOURCE_CURRENCY -t $TARGET_CURRENCY --sender $SENDER --recipient $RECIPIENT --url $URL --password $PASSWORD
+
+
+
