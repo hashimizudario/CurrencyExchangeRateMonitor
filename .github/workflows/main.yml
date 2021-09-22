@@ -7,7 +7,7 @@ jobs:
   Check Currencies:
     runs-on: ubuntu-latest
     steps:
-      - name: Initialise Env and Check Currency Exchange Rate
+      - name: Initialise Env
         shell: bash
         env:
           ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
@@ -18,11 +18,12 @@ jobs:
           TARGET_CURRENCY: ${{ secrets.TARGET_CURRENCY}}
           THRESHOLD: ${{ secrets.THRESHOLD}}
           URL: ${{ secrets.URL}}
-        uses: actions/checkout@v2 
-        uses: actions/setup-python@v2
-          with:
-            python-version: '3.x' 
-            architecture: 'x64'
+      - uses: actions/checkout@v2 
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x' 
+          architecture: 'x64'
+      - name: Check Currency Exchange Rate
         run: |
           output=$(python3 /utils/check_currency_rate.py -k $ACCESS_KEY -s $SOURCE_CURRENCY -t $TARGET_CURRENCY) 
           echo "::set-output name=rate::$output"
