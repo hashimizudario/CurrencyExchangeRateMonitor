@@ -7,7 +7,7 @@ on:
     - cron:  '00 12 * * *'
     # Run every day
 jobs:
-  Check Currencies:
+  check_currencies:
     runs-on: ubuntu-latest
     steps:
       - name: Initialise Env
