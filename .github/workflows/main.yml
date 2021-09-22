@@ -18,6 +18,7 @@ jobs:
           TARGET_CURRENCY: ${{ secrets.TARGET_CURRENCY}}
           THRESHOLD: ${{ secrets.THRESHOLD}}
           URL: ${{ secrets.URL}}
+        run: echo "Start!"
       - uses: actions/checkout@v2 
       - uses: actions/setup-python@v2
         with:
