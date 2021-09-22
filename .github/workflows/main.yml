@@ -21,14 +21,14 @@ jobs:
           architecture: 'x64'
       - name: Check Currency Exchange Rate
         env:
-        ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
-        PASSWORD: ${{ secrets.PASSWORD }}
-        RECIPIENT: ${{ secrets.RECIPIENT}}
-        SENDER: ${{ secrets.SENDER}}
-        SOURCE_CURRENCY: ${{ secrets.SOURCE_CURRENCY}}
-        TARGET_CURRENCY: ${{ secrets.TARGET_CURRENCY}}
-        THRESHOLD: ${{ secrets.THRESHOLD}}
-        URL: ${{ secrets.URL}}
+          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          RECIPIENT: ${{ secrets.RECIPIENT}}
+          SENDER: ${{ secrets.SENDER}}
+          SOURCE_CURRENCY: ${{ secrets.SOURCE_CURRENCY}}
+          TARGET_CURRENCY: ${{ secrets.TARGET_CURRENCY}}
+          THRESHOLD: ${{ secrets.THRESHOLD}}
+          URL: ${{ secrets.URL}}
         run: |
           pip3 install requests argparse
           output=$(python3 check_currency_rate.py -k $ACCESS_KEY -s $SOURCE_CURRENCY -t $TARGET_CURRENCY) 
