@@ -12,6 +12,29 @@ jobs:
     steps:
       - name: Initialise Env
         shell: bash
+        run: |
+             echo "Start!"
+      - uses: actions/checkout@v2 
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x' 
+          architecture: 'x64'
+      - name: Check Currency Exchange Rate
+        env:
+        ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+        RECIPIENT: ${{ secrets.RECIPIENT}}
+        SENDER: ${{ secrets.SENDER}}
+        SOURCE_CURRENCY: ${{ secrets.SOURCE_CURRENCY}}
+        TARGET_CURRENCY: ${{ secrets.TARGET_CURRENCY}}
+        THRESHOLD: ${{ secrets.THRESHOLD}}
+        URL: ${{ secrets.URL}}
+        run: |
+          pip3 install requests argparse
+          output=$(python3 check_currency_rate.py -k $ACCESS_KEY -s $SOURCE_CURRENCY -t $TARGET_CURRENCY) 
+          echo "::set-output name=rate::$output"
+        id: rate  
+      - name: Send notification
         env:
           ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
           PASSWORD: ${{ secrets.PASSWORD }}
@@ -21,20 +44,6 @@ jobs:
           TARGET_CURRENCY: ${{ secrets.TARGET_CURRENCY}}
           THRESHOLD: ${{ secrets.THRESHOLD}}
           URL: ${{ secrets.URL}}
-        run: |
-             echo "Start!"
-      - uses: actions/checkout@v2 
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.x' 
-          architecture: 'x64'
-      - name: Check Currency Exchange Rate
-        run: |
-          pip3 install requests argparse
-          output=$(python3 check_currency_rate.py -k $ACCESS_KEY -s $SOURCE_CURRENCY -t $TARGET_CURRENCY) 
-          echo "::set-output name=rate::$output"
-        id: rate  
-      - name: Send notification
         run: python3 send_email.py -r ${{steps.rate.outputs.rate}} -s $SOURCE_CURRENCY -t $TARGET_CURRENCY --sender $SENDER --recipient $RECIPIENT --url $URL --password $PASSWORD --threshold $THRESHOLD
 
 
