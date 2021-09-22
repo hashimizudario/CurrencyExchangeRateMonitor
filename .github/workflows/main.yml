@@ -7,7 +7,7 @@ jobs:
   Check Currencies:
     runs-on: ubuntu-latest
     steps:
-      - name: Initialise Env
+      - name: Initialise Env and Check Currency Exchange Rate
         shell: bash
         env:
           ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
@@ -18,7 +18,6 @@ jobs:
           TARGET_CURRENCY: ${{ secrets.TARGET_CURRENCY}}
           THRESHOLD: ${{ secrets.THRESHOLD}}
           URL: ${{ secrets.URL}}
-      - name: Check Currency Exchange Rate
         uses: actions/checkout@v2 
         uses: actions/setup-python@v2
           with:
