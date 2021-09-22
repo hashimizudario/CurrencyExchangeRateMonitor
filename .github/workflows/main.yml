@@ -29,11 +29,11 @@ jobs:
           architecture: 'x64'
       - name: Check Currency Exchange Rate
         run: |
-          output=$(python3 /utils/check_currency_rate.py -k $ACCESS_KEY -s $SOURCE_CURRENCY -t $TARGET_CURRENCY) 
+          output=$(python3 ./utils/check_currency_rate.py -k $ACCESS_KEY -s $SOURCE_CURRENCY -t $TARGET_CURRENCY) 
           echo "::set-output name=rate::$output"
         id: rate  
       - name: Send notification
-        run: python3 /utils/send_email.py -r ${{steps.rate.outputs.rate}} -s $SOURCE_CURRENCY -t $TARGET_CURRENCY --sender $SENDER --recipient $RECIPIENT --url $URL --password $PASSWORD --threshold $THRESHOLD
+        run: python3 ./utils/send_email.py -r ${{steps.rate.outputs.rate}} -s $SOURCE_CURRENCY -t $TARGET_CURRENCY --sender $SENDER --recipient $RECIPIENT --url $URL --password $PASSWORD --threshold $THRESHOLD
 
 
 
