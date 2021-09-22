@@ -30,6 +30,7 @@ jobs:
           architecture: 'x64'
       - name: Check Currency Exchange Rate
         run: |
+          pip3 install requests,argparse,smtplib
           output=$(python3 check_currency_rate.py -k $ACCESS_KEY -s $SOURCE_CURRENCY -t $TARGET_CURRENCY) 
           echo "::set-output name=rate::$output"
         id: rate  
