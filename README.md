@@ -2,7 +2,7 @@
 
 This is a GitHub action aiming to notify with emails when you have a rather favourable currency exchange rate. It is schedule on a daily basis.
 
-The finance API is provided by [CurrencyLayer](https://currencylayer.com/).  In this implementation, only free features is utilised.
+The finance API is provided by [CurrencyLayer](https://currencylayer.com/).  In this implementation, only free features are utilised.
 
 
 
